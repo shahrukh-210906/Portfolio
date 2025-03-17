@@ -127,6 +127,7 @@
     justify-content: center;
     align-items: start;
     
+    
 }
 
 .github-link{
@@ -149,6 +150,17 @@
     justify-content: center;
     align-items: center;
     
+    border-radius:20px ;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-top:20px ;
+    padding-bottom: 20px;
+    transition: scale 1s ease-in-out;
+    cursor: pointer;
+    
+}
+.python:hover{
+    scale: 1.1;
 }
 .frontend{
     width: 50%;
@@ -157,6 +169,16 @@
     justify-content: center;
     align-items: center;
     
+    border-radius:20px ;
+    margin-left: 50px;
+    margin-right: 50px;
+    padding-top:20px ;
+    padding-bottom: 20px;
+    transition: scale 1s ease-in-out;
+    cursor: pointer;
+}
+.frontend:hover{
+    scale: 1.1;
 }
 .skills-img{
     height: 250px;
@@ -172,8 +194,19 @@
     justify-content: center;
     align-items: center;
 
-    margin-top: 100px;
+    margin-top: 60px;
+    
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-bottom: 75px;
+    cursor: pointer;
+    transition: scale 1s ease-in-out;
 }
+.spotify-clone:hover{
+    scale: 1.1;
+}
+
 .Noor-e-Hidayah{
     width: 33%;
     
@@ -181,8 +214,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 60px;
+    
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    cursor: pointer;
+    transition: scale 1s ease-in-out;
 }
+.Noor-e-Hidayah:hover{
+    scale: 1.1;
+}
+
 .resQroute{
     width: 33%;
  
@@ -190,23 +233,39 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 60px;
+
+    border-radius: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-bottom: 78px;
+    cursor: pointer;
+    transition: scale 1s ease-in-out;
+}
+.resQroute:hover{
+    scale: 1.1;
 }
 
 .pro-head{
     font-weight: 600;
     font-size: 50px;
+    background-color: black;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    
 }
 
 .bottom{
     height: 50px;
     bottom: 0;
-    position: sticky;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: white;
     z-index: 10;
+    border-top: rgb(196, 196, 196) solid 1px;
 }
 .phone{
     display: flex;
@@ -219,4 +278,11 @@
     justify-content: center;
     align-items: center;
     width: 50%;
+}
+
+.heading{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
