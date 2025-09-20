@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -44,7 +45,7 @@ export const Navbar = ({ activeSection }) => {
   return (
     <nav
       className={cn(
-        "fixed w-full z-40 transition-all duration-300",
+        "fixed w-full z-40 transition-all duration-300 top-0",
         isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-sm" : "py-5"
       )}
     >
@@ -87,6 +88,9 @@ export const Navbar = ({ activeSection }) => {
               )}
             </a>
           ))}
+           <div className="hidden max-sm:block">
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile Nav Button */}
@@ -119,6 +123,9 @@ export const Navbar = ({ activeSection }) => {
                     {item.name}
                   </a>
                 ))}
+                 <div className="pt-4">
+                  <ThemeToggle />
+                </div>
               </div>
             </motion.div>
           )}
