@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Navbar } from "../components/Navbar";
-import { StarBackground } from "@/components/StarBackground";
 import { HeroSection } from "../components/HeroSection";
 import { AboutSection } from "../components/AboutSection";
 import { SkillsSection } from "../components/SkillsSection";
@@ -8,8 +7,9 @@ import { ProjectsSection } from "../components/ProjectsSection";
 import { ContactSection } from "../components/ContactSection";
 import { Footer } from "../components/Footer";
 import { useInView } from "react-intersection-observer";
+import { StarBackground } from "@/components/StarBackground";
+import { DayBackground } from "@/components/DayBackground";
 
-// This component is now defined outside of Home for stability
 const SectionObserver = ({ id, children, setActiveSection }) => {
   const { ref } = useInView({
     threshold: 0.3,
@@ -28,7 +28,13 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <StarBackground />
+      <div className="hidden dark:block">
+        <StarBackground />
+      </div>
+      <div className="block dark:hidden">
+        <DayBackground />
+      </div>
+      
       <Navbar activeSection={activeSection} />
       
       <main>

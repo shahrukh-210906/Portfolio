@@ -60,6 +60,17 @@
       opacity: 0;
     }
   }
+  @keyframes gradient-scroll {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 }
 
 @layer base {
@@ -102,8 +113,21 @@
   }
 
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Light mode body background */
+  body {
+    background: linear-gradient(60deg, #f9d423, #ff4e50, #f06, #6a11cb);
+    background-size: 400% 400%;
+    animation: gradient-scroll 20s ease infinite;
+  }
+
+  /* Dark mode body background */
+  .dark body {
+    background: hsl(var(--background));
+    animation: none;
   }
 }
 
@@ -156,7 +180,7 @@
 }
 
 @utility meteor {
-  @apply absolute bg-linear-to-r from-white via-white to-transparent rounded-full;
+  @apply absolute bg-gradient-to-r from-white to-transparent rounded-full;
   box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
 }
 
@@ -165,4 +189,20 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+}
+
+/* Day Time theme styles */
+.day-sky {
+  background: linear-gradient(to bottom, #87CEEB, #d3e6ef);
+}
+
+.day-glow {
+  background: linear-gradient(to bottom, #ffde7a, #f6c86a);
+  transition: opacity 0.5s ease;
+}
+
+.sun {
+  @apply absolute left-1/2 -translate-x-1/2 w-40 h-40 rounded-full transition-all duration-300 ease-out;
+  background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(255,245,150,0.8) 50%, rgba(255,220,0,0) 70%);
+  box-shadow: 0 0 80px 40px rgba(255, 255, 180, 0.4);
 }

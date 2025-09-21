@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -15,8 +16,6 @@ const navItems = [
 export const Navbar = ({ activeSection }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  // This state now tracks the HREF of the hovered link
   const [hoveredHref, setHoveredHref] = useState(null);
 
   useEffect(() => {
@@ -27,6 +26,21 @@ export const Navbar = ({ activeSection }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+    }
+  }, [isMenuOpen]);
 
   const mobileMenuVariants = {
     open: {
@@ -39,70 +53,67 @@ export const Navbar = ({ activeSection }) => {
     },
   };
   
-  // Determine which link should have the pill. Hover takes precedence.
   const activePillHref = hoveredHref || `#${activeSection}`;
 
   return (
-    <nav
-      className={cn(
-        "fixed w-full z-40 transition-all duration-300 top-0",
-        isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-sm" : "py-5"
-      )}
-    >
-      <div className="container flex items-center justify-between">
-        <a
-          className="text-xl font-bold text-primary flex items-center"
-          href="#hero"
-        >
-          <span className="relative z-10">
-            Portfolio
-          </span>
-        </a>
+    <>
+      <nav
+        className={cn(
+          "fixed w-full z-40 transition-all duration-300 top-0",
+          isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-sm" : "py-5"
+        )}
+      >
+        <div className="container flex items-center justify-between">
+          <a
+            className="text-xl font-bold text-primary flex items-center"
+            href="#hero"
+          >
+            <span className="relative z-10">
+              Portfolio
+            </span>
+          </a>
 
-        {/* Desktop Nav with Corrected Sliding Pill Animation */}
-        <div 
-          className="hidden md:flex space-x-2 relative"
-          onMouseLeave={() => setHoveredHref(null)}
-        >
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="relative px-4 py-2 text-sm font-medium transition-colors duration-300"
-              onMouseEnter={() => setHoveredHref(item.href)}
-            >
-              <span className={cn(
-                  "relative z-10",
-                  activePillHref === item.href ? "text-primary" : "text-foreground/80"
-              )}>
-                {item.name}
-              </span>
-              
-              {/* The animated background pill */}
-              {activePillHref === item.href && (
-                <motion.div
-                  layoutId="navbar-pill"
-                  className="absolute inset-0 bg-primary/10 rounded-full z-0"
-                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                />
-              )}
-            </a>
-          ))}
-           <div className="hidden max-sm:block">
-            <ThemeToggle />
+          <div 
+            className="hidden md:flex space-x-2 relative items-center"
+            onMouseLeave={() => setHoveredHref(null)}
+          >
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="relative px-4 py-2 text-sm font-medium transition-colors duration-300"
+                onMouseEnter={() => setHoveredHref(item.href)}
+              >
+                <span className={cn(
+                    "relative z-10",
+                    activePillHref === item.href ? "text-primary" : "text-foreground/80"
+                )}>
+                  {item.name}
+                </span>
+                
+                {activePillHref === item.href && (
+                  <motion.div
+                    layoutId="navbar-pill"
+                    className="absolute inset-0 bg-primary/10 rounded-full z-0"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+              </a>
+            ))}
+             <ThemeToggle />
           </div>
+
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="md:hidden p-2 text-foreground z-50"
+            aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
+          >
+            <Menu size={24} />
+          </button>
         </div>
+      </nav>
 
-        {/* Mobile Nav Button */}
-        <button
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-          className="md:hidden p-2 text-foreground z-50"
-          aria-label={isMenuOpen ? "Close Menu" : "Open Menu"}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-
-        {/* Mobile Menu */}
+      {createPortal(
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -110,9 +121,16 @@ export const Navbar = ({ activeSection }) => {
               animate="open"
               exit="closed"
               variants={mobileMenuVariants}
-              className="fixed inset-y-0 right-0 w-3/4 max-w-sm bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center md:hidden"
+              className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex flex-col items-center justify-center md:hidden"
             >
-              <div className="flex flex-col space-y-8 text-2xl">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="absolute top-5 right-5 p-2 text-foreground z-50"
+                aria-label="Close Menu"
+              >
+                <X size={24} />
+              </button>
+              <div className="flex flex-col space-y-8 text-2xl items-center">
                 {navItems.map((item) => (
                   <a
                     key={item.name}
@@ -123,14 +141,13 @@ export const Navbar = ({ activeSection }) => {
                     {item.name}
                   </a>
                 ))}
-                 <div className="pt-4">
-                  <ThemeToggle />
-                </div>
+                 <ThemeToggle />
               </div>
             </motion.div>
           )}
-        </AnimatePresence>
-      </div>
-    </nav>
+        </AnimatePresence>,
+        document.body
+      )}
+    </>
   );
 };
