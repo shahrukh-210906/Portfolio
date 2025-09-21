@@ -23,17 +23,12 @@ const SectionObserver = ({ id, children, setActiveSection }) => {
   return <div ref={ref}>{children}</div>;
 };
 
-export const Home = () => {
+export const Home = ({ theme }) => {
   const [activeSection, setActiveSection] = useState("hero");
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      <div className="hidden dark:block">
-        <StarBackground />
-      </div>
-      <div className="block dark:hidden">
-        <DayBackground />
-      </div>
+      {theme === 'dark' ? <StarBackground /> : <DayBackground />}
       
       <Navbar activeSection={activeSection} />
       

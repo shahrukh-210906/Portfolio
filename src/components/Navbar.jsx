@@ -3,7 +3,6 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { name: "Home", href: "#hero" },
@@ -100,7 +99,6 @@ export const Navbar = ({ activeSection }) => {
                 )}
               </a>
             ))}
-             <ThemeToggle />
           </div>
 
           <button
@@ -121,7 +119,7 @@ export const Navbar = ({ activeSection }) => {
               animate="open"
               exit="closed"
               variants={mobileMenuVariants}
-              className="fixed inset-0 bg-background/95 backdrop-blur-md z-50 flex flex-col items-center justify-center md:hidden"
+              className="fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center md:hidden"
             >
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -141,7 +139,6 @@ export const Navbar = ({ activeSection }) => {
                     {item.name}
                   </a>
                 ))}
-                 <ThemeToggle />
               </div>
             </motion.div>
           )}
