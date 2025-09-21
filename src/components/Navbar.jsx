@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,7 +12,7 @@ const navItems = [
   { name: "Contact", href: "#contact" },
 ];
 
-export const Navbar = ({ activeSection }) => {
+export const Navbar = ({ activeSection, theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredHref, setHoveredHref] = useState(null);
@@ -58,8 +58,8 @@ export const Navbar = ({ activeSection }) => {
     <>
       <nav
         className={cn(
-          "fixed w-full z-40 transition-all duration-300 top-0",
-          isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-sm" : "py-5"
+          "fixed w-full z-40 transition-all duration-300 top-0 bg-white/30 dark:bg-card/20 backdrop-blur-md shadow-sm border-b border-white/50 dark:border-border/20",
+          isScrolled ? "py-3" : "py-5"
         )}
       >
         <div className="container flex items-center justify-between">
@@ -99,6 +99,17 @@ export const Navbar = ({ activeSection }) => {
                 )}
               </a>
             ))}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun className="h-6 w-6 text-yellow-400" />
+              ) : (
+                <Moon className="h-6 w-6 text-gray-600" />
+              )}
+            </button>
           </div>
 
           <button
@@ -119,7 +130,7 @@ export const Navbar = ({ activeSection }) => {
               animate="open"
               exit="closed"
               variants={mobileMenuVariants}
-              className="fixed inset-0 bg-background/95 backdrop-blur-md z-40 flex flex-col items-center justify-center md:hidden"
+              className="fixed inset-0 bg-white/30 dark:bg-card/20 backdrop-blur-md z-40 flex flex-col items-center justify-center md:hidden"
             >
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -139,6 +150,17 @@ export const Navbar = ({ activeSection }) => {
                     {item.name}
                   </a>
                 ))}
+                <button
+                  onClick={toggleTheme}
+                  className="p-2 rounded-full"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-8 w-8 text-yellow-400" />
+                  ) : (
+                    <Moon className="h-8 w-8 text-gray-600" />
+                  )}
+                </button>
               </div>
             </motion.div>
           )}

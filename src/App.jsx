@@ -3,7 +3,6 @@ import { Home } from "./pages/Home";
 import { NotFound } from "./pages/NotFound";
 import { Toaster } from "@/components/ui/toaster";
 import { useState, useEffect } from "react";
-import { ThemeToggle } from "./components/ThemeToggle";
 
 function App() {
   const [theme, setTheme] = useState('dark'); // Default to dark theme
@@ -31,10 +30,9 @@ function App() {
   return (
     <>
       <Toaster />
-      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       <BrowserRouter>
         <Routes>
-          <Route index element={<Home theme={theme} />} />
+          <Route index element={<Home theme={theme} toggleTheme={toggleTheme} />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

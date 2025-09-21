@@ -66,7 +66,7 @@ export const SkillsSection = () => {
   );
 
   return (
-    <section id="skills" className="py-24 px-4 relative bg-secondary/30" ref={ref}>
+    <section id="skills" className="py-24 px-4 relative bg-transparent" ref={ref}>
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
           My <span className="text-primary"> Skills</span>
@@ -101,7 +101,7 @@ export const SkillsSection = () => {
               href={skill.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-card p-6 rounded-lg shadow-xs card-hover text-left block"
+              className="p-6 rounded-lg bg-card/60 dark:bg-card/20 backdrop-blur-md shadow-sm border border-border/50 dark:border-border/20 text-left block transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               variants={skillVariants}
             >
               <div className="flex justify-between items-center mb-4">

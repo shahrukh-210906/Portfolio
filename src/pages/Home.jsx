@@ -23,14 +23,14 @@ const SectionObserver = ({ id, children, setActiveSection }) => {
   return <div ref={ref}>{children}</div>;
 };
 
-export const Home = ({ theme }) => {
+export const Home = ({ theme, toggleTheme }) => {
   const [activeSection, setActiveSection] = useState("hero");
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-transparent text-foreground overflow-x-hidden">
       {theme === 'dark' ? <StarBackground /> : <DayBackground />}
       
-      <Navbar activeSection={activeSection} />
+      <Navbar activeSection={activeSection} theme={theme} toggleTheme={toggleTheme} />
       
       <main>
         <SectionObserver id="hero" setActiveSection={setActiveSection}>

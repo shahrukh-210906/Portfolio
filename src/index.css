@@ -75,18 +75,14 @@
 
 @layer base {
   :root {
-    --background: 210 40% 96%;
+    --background: 0 0% 100%;
     --foreground: 222 47% 11%;
-
     --card: 0 0% 100%;
-
-    --primary: 250 47% 60%;
+    --primary: 221 83% 53%;
     --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 90%;
+    --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
-
-    --border: 214 32% 88%;
+    --border: 214 32% 91%;
   }
 
   .dark {
@@ -115,19 +111,32 @@
   body {
     @apply text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
+    position: relative;
   }
   
   /* Light mode body background */
-  body {
-    background: linear-gradient(60deg, #f9d423, #ff4e50, #f06, #6a11cb);
+  body::before {
+    content: "";
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(60deg, #f9d423, #ff8c5a, #a9def9);
     background-size: 400% 400%;
     animation: gradient-scroll 20s ease infinite;
+    filter: blur(8px);
+    z-index: -1;
   }
 
   /* Dark mode body background */
   .dark body {
     background: hsl(var(--background));
     animation: none;
+  }
+  
+  .dark body::before {
+    display: none;
   }
 }
 
@@ -189,6 +198,8 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* Day Time theme styles */
@@ -198,11 +209,44 @@
 
 .day-glow {
   background: linear-gradient(to bottom, #ffde7a, #f6c86a);
-  transition: opacity 0.5s ease;
 }
 
 .sun {
-  @apply absolute left-1/2 -translate-x-1/2 w-40 h-40 rounded-full transition-all duration-300 ease-out;
-  background: radial-gradient(circle, rgba(255,255,220,1) 0%, rgba(255,245,150,0.8) 50%, rgba(255,220,0,0) 70%);
-  box-shadow: 0 0 80px 40px rgba(255, 255, 180, 0.4);
+  @apply absolute left-1/2 -translate-x-1/2 w-40 h-40 rounded-full;
+  background: radial-gradient(circle at center, #FFF59D 0%, #FFEE58 40%, #FFD54F 80%, rgba(255, 213, 79, 0) 100%);
+  box-shadow: 0 0 100px rgba(255, 238, 88, 0.9), 0 0 160px rgba(255, 213, 79, 0.8), 0 0 220px rgba(255, 213, 79, 0.6);
+  position: relative;
+  overflow: hidden;
+  animation: pulse-glow 4s infinite ease-in-out;
+  filter: blur(8px);
+}
+
+.sun::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 50%);
+  animation: lens-flare 8s infinite linear;
+  opacity: 0.5;
+}
+
+@keyframes lens-flare {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 100px rgba(255, 238, 88, 0.9), 0 0 160px rgba(255, 213, 79, 0.8), 0 0 220px rgba(255, 213, 79, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 120px rgba(255, 238, 88, 1), 0 0 200px rgba(255, 213, 79, 0.9), 0 0 280px rgba(255, 213, 79, 0.7);
+  }
 }
