@@ -1,6 +1,7 @@
 import { Briefcase, Code, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export const AboutSection = () => {
+export const AboutSection = ({ theme }) => {
   return (
     <section id="about" className="py-24 px-4 relative">
       {" "}
@@ -29,7 +30,12 @@ export const AboutSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
-              <a href="#contact" className="cosmic-button-gradient">
+              <a href="#contact" className={cn(
+                "px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
+                theme === 'dark'
+                  ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                  : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
+              )}>
                 {" "}
                 Get In Touch
               </a>

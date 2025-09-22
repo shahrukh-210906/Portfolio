@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
-export const ContactSection = () => {
+export const ContactSection = ({ theme }) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,7 +52,7 @@ export const ContactSection = () => {
                   <Mail className="h-6 w-6 text-primary" />{" "}
                 </div>
                 <div>
-                  <h4 className="font-medium"> Email</h4>
+                  <h4 className="font-medium text-start"> Email</h4>
                   <a
                     href="mailto:hello@gmail.com"
                     className="text-muted-foreground hover:text-primary transition-colors"
@@ -66,7 +66,7 @@ export const ContactSection = () => {
                   <Phone className="h-6 w-6 text-primary" />{" "}
                 </div>
                 <div>
-                  <h4 className="font-medium"> Phone</h4>
+                  <h4 className="font-medium text-start"> Phone</h4>
                   <a
                     href="tel:+11234567890"
                     className="text-muted-foreground hover:text-primary transition-colors"
@@ -80,7 +80,7 @@ export const ContactSection = () => {
                   <MapPin className="h-6 w-6 text-primary" />{" "}
                 </div>
                 <div>
-                  <h4 className="font-medium"> Location</h4>
+                  <h4 className="font-medium text-start"> Location</h4>
                   <a className="text-muted-foreground hover:text-primary transition-colors">
                     Woxsen University, Hyderabad
                   </a>
@@ -103,11 +103,10 @@ export const ContactSection = () => {
 
           <div
             className="p-8 rounded-lg shadow-sm bg-card/60 dark:bg-card/20 backdrop-blur-md border border-border/50 dark:border-border/20"
-            onSubmit={handleSubmit}
           >
             <h3 className="text-2xl font-semibold mb-6"> Send a Message</h3>
 
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
                   htmlFor="name"
@@ -165,7 +164,10 @@ export const ContactSection = () => {
                 type="submit"
                 disabled={isSubmitting}
                 className={cn(
-                  "cosmic-button-gradient w-full flex items-center justify-center gap-2"
+                  "w-full flex items-center justify-center gap-2 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
+                  theme === 'dark'
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                    : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
                 )}
               >
                 {isSubmitting ? "Sending..." : "Send Message"}

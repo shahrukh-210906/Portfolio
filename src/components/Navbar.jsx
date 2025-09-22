@@ -93,7 +93,12 @@ export const Navbar = ({ activeSection, theme, toggleTheme }) => {
                 {activePillHref === item.href && (
                   <motion.div
                     layoutId="navbar-pill"
-                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full z-0"
+                    className={cn(
+                        "absolute inset-0 rounded-full z-0",
+                        theme === 'dark'
+                            ? "bg-gradient-to-r from-blue-500 to-purple-500"
+                            : "bg-gradient-to-r from-sky-500 to-cyan-500 shadow-lg shadow-cyan-500/40"
+                    )}
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}

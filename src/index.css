@@ -186,9 +186,10 @@
 }
 
 @utility cosmic-button-gradient {
-    @apply px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium
-           transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
-           hover:scale-105 active:scale-95;
+    @apply px-6 py-2 rounded-full bg-gradient-to-r from-sky-500 to-cyan-500 text-white font-medium
+           dark:from-blue-500 dark:to-purple-500
+           shadow-lg shadow-cyan-500/40 dark:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+           transition-all duration-300 hover:scale-105 active:scale-95;
   }
   
   @utility cosmic-button-outline {

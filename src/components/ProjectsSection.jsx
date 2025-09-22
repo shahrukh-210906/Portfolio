@@ -1,4 +1,5 @@
 import { ArrowRight, ExternalLink, Github } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const projects = [
   {
@@ -31,7 +32,7 @@ const projects = [
   },
 ];
 
-export const ProjectsSection = () => {
+export const ProjectsSection = ({ theme }) => {
   return (
     <section id="projects" className="py-24 px-4 relative">
       <div className="container mx-auto max-w-5xl">
@@ -97,7 +98,12 @@ export const ProjectsSection = () => {
 
         <div className="text-center mt-12">
           <a
-            className="cosmic-button-gradient w-fit flex items-center mx-auto gap-2"
+            className={cn(
+              "w-fit flex items-center mx-auto gap-2 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
+              theme === 'dark'
+                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
+                : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
+            )}
             target="_blank"
             href="https://github.com/shahrukh-210906"
           >

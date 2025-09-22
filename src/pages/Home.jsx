@@ -34,19 +34,19 @@ export const Home = ({ theme, toggleTheme }) => {
       
       <main>
         <SectionObserver id="hero" setActiveSection={setActiveSection}>
-          <HeroSection />
+          <HeroSection theme={theme} />
         </SectionObserver>
         <SectionObserver id="about" setActiveSection={setActiveSection}>
-          <AboutSection />
+          <AboutSection theme={theme} />
         </SectionObserver>
         <SectionObserver id="skills" setActiveSection={setActiveSection}>
-          <SkillsSection />
+          <SkillsSection theme={theme} />
         </SectionObserver>
         <SectionObserver id="projects" setActiveSection={setActiveSection}>
-          <ProjectsSection />
+          <ProjectsSection theme={theme} />
         </SectionObserver>
         <SectionObserver id="contact" setActiveSection={setActiveSection}>
-          <ContactSection />
+          <ContactSection theme={theme} />
         </SectionObserver>
       </main>
 

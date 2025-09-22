@@ -50,7 +50,7 @@ const skillVariants = {
   },
 };
 
-export const SkillsSection = () => {
+export const SkillsSection = ({ theme }) => {
   const [activeCategory, setActiveCategory] = useState("all");
   const { ref, inView } = useInView({
     triggerOnce: true,
@@ -74,9 +74,11 @@ export const SkillsSection = () => {
               key={category}
               onClick={() => setActiveCategory(category)}
               className={cn(
-                "px-5 py-2 rounded-full transition-colors duration-300 capitalize cursor-pointer",
+                "px-5 py-2 rounded-full transition-all duration-300 capitalize cursor-pointer",
                 activeCategory === category
-                  ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                  ? theme === 'dark'
+                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
+                    : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
                   : "bg-secondary/70 text-foreground hover:bg-secondary"
               )}
             >
