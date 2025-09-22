@@ -110,19 +110,31 @@
 
   html {
     @apply scroll-smooth;
+    /* --- SCROLLBAR HIDING STYLES START --- */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    /* --- SCROLLBAR HIDING STYLES END --- */
   }
+
+  /* --- SCROLLBAR HIDING STYLES START --- */
+  html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+  /* --- SCROLLBAR HIDING STYLES END --- */
+
 
   body {
     @apply text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     position: relative;
-    /* Apply the static gradient to the body, now a darker blue gradient */
-    background: linear-gradient(to top, #060e20, #0a1c3d); /* Very dark blue to dark blue */
     min-height: 100vh;
+    /* Remove the default dark blue gradient from the base body in day mode */
+    background: transparent; 
   }
   
   .dark body {
-    background: linear-gradient(to top, #060e20, #0a1c3d); /* Consistent dark blue gradient for dark mode */
+    /* Keep the dark blue gradient specifically for dark mode */
+    background: linear-gradient(to top, #060e20, #0a1c3d); 
   }
 
   .dark body::before {
@@ -172,6 +184,18 @@
          transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
          hover:scale-105 active:scale-95;
 }
+
+@utility cosmic-button-gradient {
+    @apply px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium
+           transition-all duration-300 hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]
+           hover:scale-105 active:scale-95;
+  }
+  
+  @utility cosmic-button-outline {
+    @apply px-6 py-2 rounded-full border border-primary text-primary font-medium
+           transition-all duration-300 hover:bg-primary/10
+           hover:scale-105 active:scale-95;
+  }
 
 @utility star {
   @apply absolute rounded-full bg-white;

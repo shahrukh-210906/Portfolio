@@ -85,7 +85,7 @@ export const Navbar = ({ activeSection, theme, toggleTheme }) => {
               >
                 <span className={cn(
                     "relative z-10",
-                    activePillHref === item.href ? "text-primary" : "text-foreground/80"
+                    activePillHref === item.href ? "text-white" : "text-foreground/80"
                 )}>
                   {item.name}
                 </span>
@@ -93,7 +93,7 @@ export const Navbar = ({ activeSection, theme, toggleTheme }) => {
                 {activePillHref === item.href && (
                   <motion.div
                     layoutId="navbar-pill"
-                    className="absolute inset-0 bg-primary/10 rounded-full z-0"
+                    className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full z-0"
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
