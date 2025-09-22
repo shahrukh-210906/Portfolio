@@ -113,20 +113,18 @@
   }
 
   body {
-    @apply text-foreground transition-colors duration-300;
+    @apply text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     position: relative;
+    /* Apply the static gradient to the body, now a darker blue gradient */
+    background: linear-gradient(to top, #060e20, #0a1c3d); /* Very dark blue to dark blue */
+    min-height: 100vh;
   }
   
-  /* Light mode body background */
-
-
-  /* Dark mode body background */
   .dark body {
-    background: hsl(var(--background));
-    animation: none;
+    background: linear-gradient(to top, #060e20, #0a1c3d); /* Consistent dark blue gradient for dark mode */
   }
-  
+
   .dark body::before {
     display: none;
   }
@@ -286,9 +284,9 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #fff1c4;
+  background-color: #ffffff;
   box-shadow: 0px 0px 80px rgba(255, 255, 255, 0.8);
-  filter: blur(1px);
+  filter: blur(2px);
   transform: translateX(-50%);
 }
 
