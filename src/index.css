@@ -281,15 +281,15 @@
 
 .moon {
   position: absolute;
-  top: 15%;
-  right: 15%;
-  width: 100px;
-  height: 100px;
+  top: 90%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  background-color: transparent;
-  box-shadow: -25px 10px 0 0px #edeacc;
-  animation: float 8s ease-in-out infinite;
-  filter: blur(8px);
+  background-color: #fff1c4;
+  box-shadow: 0px 0px 80px rgba(255, 255, 255, 0.8);
+  filter: blur(1px);
+  transform: translateX(-50%);
 }
 
 @keyframes lens-flare {

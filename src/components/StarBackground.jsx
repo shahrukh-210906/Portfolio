@@ -58,6 +58,7 @@ export const StarBackground = () => {
 
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {/* The moon's position is now updated to match the sun's position of top: 90% */}
       <div className="moon"></div>
       {stars.map((star) => (
         <div
