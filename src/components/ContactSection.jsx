@@ -94,8 +94,8 @@ export const ContactSection = ({ theme }) => {
                 <a href="www.linkedin.com/in/mohd-shahrukh-913b2b36b" target="_blank">
                   <Linkedin />
                 </a>
-                <a href="https://www.instagram.com/shahrukh_210906/" target="_blank">
-                  <Instagram />
+                <a href="https://www.instagram.com/shahrukh_210906" target="_blank">
+                  <Instagram/>
                 </a>
               </div>
             </div>

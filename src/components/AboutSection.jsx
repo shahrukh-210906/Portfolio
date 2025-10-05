@@ -41,7 +41,7 @@ export const AboutSection = ({ theme }) => {
               </a>
 
               <a
-                href=""
+                href="../../resume/Resume.pdf"
                 className="cosmic-button-outline"
               >
                 Download CV

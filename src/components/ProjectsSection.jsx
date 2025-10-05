@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 const projects = [
   {
     id: 1,
-    title: "Portfolio Landing Page",
-    description: "A beautiful landing page app using React and Tailwind.",
+    title: "WonderLust",
+    description: "A web platform for listing, discovering, and booking unique travel accommodations.",
     image: "/projects/project1.png",
-    tags: ["React", "TailwindCSS", "Vite"],
-    demoUrl: "#",
-    githubUrl: "#",
+    tags: ["NodeJs", "ExpressJs", "MongoDB"],
+    demoUrl: "https://wonderlust-7m5h.onrender.com/",
+    githubUrl: "https://github.com/shahrukh-210906/WONDERLUST.git",
   },
   {
     id: 2,
