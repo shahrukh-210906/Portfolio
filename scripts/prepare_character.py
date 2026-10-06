@@ -21,6 +21,7 @@ parser.add_argument("--center", type=float)
 parser.add_argument("--face", nargs=2, type=float, default=[0.5, 0.4], help="Face center as fractions of source width/height")
 parser.add_argument("--output", type=Path, default=Path("public/frames"))
 parser.add_argument("--max-width", type=int, default=1440)
+parser.add_argument("--crop-right", type=int, help="Keep source pixels left of this x coordinate")
 parser.add_argument("--skip-interval", nargs=2, type=float, action="append", default=[], help="Exclude blink/unstable time ranges by choosing their nearest endpoint")
 args = parser.parse_args()
 cap = cv2.VideoCapture(str(args.video))
@@ -38,6 +39,10 @@ def read_at(second):
     ok, frame = cap.read()
     if not ok:
         raise RuntimeError(f"Cannot decode frame at {second}s")
+    if args.crop_right:
+        if not 0 < args.crop_right <= frame.shape[1]:
+            raise ValueError("Invalid crop boundary")
+        frame = frame[:, :args.crop_right]
     return frame
 
 if args.inspect:

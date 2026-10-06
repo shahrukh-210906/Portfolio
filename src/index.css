@@ -326,3 +326,16 @@ html:has(.motion-paused) { scroll-behavior:auto; }
 .motion-enabled .stack-card-top > svg { animation-play-state:paused; }
 .motion-enabled #skills.is-in-view .stack-card-top > svg { animation-play-state:running; }
 .page-hidden *, .page-hidden *::before, .page-hidden *::after { animation-play-state:paused !important; }
+/* Warm reds sampled from the supplied video; section texture uses its clean background pixels. */
+:root { --paper:#9a1e16; --paper-alt:#c13628; --surface:#9a1e16; --ink-muted:#f8d9cc; --background:4 75% 35%; --card:4 75% 35%; --primary-foreground:4 75% 25%; }
+.dark { --paper:#5c0d0a; --paper-alt:#6b110c; --surface:#70160f; --background:2 80% 20%; --card:4 76% 25%; --primary-foreground:2 80% 20%; }
+.work-section,.about-section,.stack-section,.contact-section { background:var(--paper) url('/frames/video-background.webp') center/cover no-repeat; }
+.dark .editorial-section { background-image:linear-gradient(#26040166,#26040166),url('/frames/video-background.webp'); }
+.project-preview,.preview-1,.preview-2 { background:#9a1e16 url('/frames/video-background.webp') center/cover; }
+.studio-ribbon { background:#c13628; }
+.dark .studio-ribbon { background:#70160f; }
+.on-hero .nav-pill,.on-hero .nav-theme { background:#6b110c66; }
+.motion-toggle { background:#5c0d0ae6; }
+.motion-toggle:hover { background:#9a1e16; }
+.contact-form input,.contact-form textarea { background:#5c0d0a44; }
+::selection { color:#6b110c; }
