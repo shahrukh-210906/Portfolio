@@ -1,96 +1,32 @@
-# Build a Modern Portfolio Website with React & TailwindCSS
+# Mohd Shahrukh — Portfolio
 
-<div align="center">
-  <br />
-  <a href="https://youtu.be/YOUR_VIDEO_ID" target="_blank">
-    <img src="./banner.png" alt="Portfolio Website Banner">
-  </a>
-  <br />
-  <div>
-    <img src="https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
-    <img src="https://img.shields.io/badge/-TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss" alt="Tailwind CSS" />
-    <img src="https://img.shields.io/badge/-Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-    <img src="https://img.shields.io/badge/-Lucide Icons-FD4D4D?style=for-the-badge&logo=lucide" alt="Lucide Icons" />
-    <img src="https://img.shields.io/badge/-Radix UI-9D4EDD?style=for-the-badge&logo=data:image/svg+xml;base64..." alt="Radix UI" />
-  </div>
-  <h3 align="center">Create a Stunning Developer Portfolio with Animations, Dark Mode, and Projects Showcase</h3>
-  <div align="center">
-    Follow the full video tutorial on 
-    <a href="https://youtu.be/YOUR_VIDEO_ID" target="_blank"><b>YouTube</b></a>
-  </div>
-  <br />
-</div>
+React 18, Vite, Tailwind CSS. Existing projects, skills, and theme support, with a red editorial hero inspired by the supplied cursor-tracking tutorial.
 
-## 📋 Table of Contents
+## Run
 
-1. [Introduction](#-introduction)
-2. [Tech Stack](#-tech-stack)
-3. [Features](#-features)
-4. [Quick Start](#-quick-start)
-5. [Screenshots](#-screenshots)
-6. [Deployment](#-deployment)
-
----
-
-## 🚀 Introduction
-
-In this tutorial, you'll learn how to build a modern portfolio website using **React**, **TailwindCSS**, **Vite**, and **Lucide Icons**. From dark mode support to responsive animations and deployable project showcases, this video walks you through every step—perfect for developers looking to level up their frontend skills or apply for jobs.
-
-🎥 Watch the full tutorial: [YouTube](https://youtu.be/YOUR_VIDEO_ID)
-
----
-
-## ⚙️ Tech Stack
-
-* **React** – Component-based UI development
-* **Vite** – Lightning-fast build tool
-* **TailwindCSS** – Utility-first CSS for styling
-* **Lucide Icons** – Clean and beautiful icon pack
-* **Radix UI** – Accessible component primitives
-* **TypeScript (optional)** – Type safety and tooling
-* **GitHub & Vercel** – Deployment
-
----
-
-## ⚡️ Features
-
-* 🌑 **Light/Dark Mode Toggle**
-  Save theme preference in local storage with beautiful transitions
-
-* 💫 **Animated Backgrounds**
-  Stars, meteors, scroll effects, and glowing UI elements
-
-* 📱 **Responsive Navigation**
-  Desktop and mobile menus with glassmorphism
-
-* 👨‍💻 **Hero & About Sections**
-  Showcase who you are with smooth intro animations and buttons
-
-* 📊 **Skills Grid**
-  Filterable progress bars and categories with animated width
-
-* 🖼️ **Projects Showcase**
-  Display screenshots, tech stacks, and GitHub/demo links
-
-* 📩 **Contact Section**
-  Social icons + responsive contact form with toast notifications
-
-* 🚀 **One-Click Deployment**
-  Easily host your site with Vercel and GitHub
-
----
-
-## 👌 Quick Start
-
-### Prerequisites
-
-* [Node.js](https://nodejs.org/)
-* [Git](https://git-scm.com/)
-
-### Clone and Run
-
-```bash
-git clone [https://github.com/yourusername/react-tailwind-portfolio.git](https://github.com/yourusername/react-tailwind-portfolio.git)
-cd react-tailwind-portfolio
-npm install
+```
+npm ci
 npm run dev
+npm run build
+```
+
+## Character assets
+
+The supplied 10-second character video has been processed into 64 directional WebP frames plus a neutral pose (about 3 MB total). The renderer activates only when a complete frame manifest and all 65 images load; it falls back to the MS monogram if any asset is missing.
+
+1. Put the finished identity-consistent directional video at `source-assets/character.mp4`.
+2. Install offline preparation tools: `pip install opencv-python numpy`.
+3. Run `python scripts/prepare_character.py source-assets/character.mp4 --inspect` and inspect the timestamped contact sheet.
+4. Identify UP, UP-RIGHT, RIGHT, DOWN-RIGHT, DOWN, DOWN-LEFT, LEFT, UP-LEFT, and the return to UP, plus a neutral center timestamp. Supply those actual timestamps as nine `--anchors` values and `--center`. Do not guess timings.
+5. Run extraction with those values. `--face X Y` sets the face center in normalized source coordinates; verify it against the actual image. The script writes 64 WebP frames, `center.webp`, and `manifest.json` under `public/frames/`, and samples the flat background color from the neutral image's corners.
+6. Verify direction mapping, cropping, background seams, and identity continuity on desktop and mobile before publishing. The current video returns through neutral between upper-left and up; that sector follows the source motion rather than inventing a continuous circular turn.
+
+The browser never loads or seeks the MP4. It preloads stills, follows the shortest circular angular path at a time-adjusted response factor, and draws exactly one opaque frame. The center deadzone uses the face coordinates after cover scaling/cropping. Touch and reduced-motion users see the neutral frame. Observers and listeners clean up on unmount; animation work pauses when hidden or outside the viewport.
+
+The glass navigation provides Work, About, and Contact links at all sizes. Résumé links use the built public PDF. Contact links use the displayed contact information. The contact form opens an email draft rather than falsely claiming delivery; a visitor must send it in their email application.
+
+Reproduce the included frames:
+
+python scripts/prepare_character.py source-assets/character.mp4 --anchors 1.25 2.55 3.55 4.65 5.75 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43
+
+The last timestamp extends past the 10-second duration and wraps to the beginning. The source background is a red gradient; frames preserve it. Mobile uses a bottom fade into the sampled edge color.
