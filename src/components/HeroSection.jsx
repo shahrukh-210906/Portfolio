@@ -2,9 +2,9 @@ import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { CharacterCanvas } from "./CharacterCanvas";
 import { HeroCursor } from "./HeroCursor";
 
-export const HeroSection = () => (
+export const HeroSection = ({ motionEnabled = true }) => (
   <section id="hero" className="tracking-hero" aria-labelledby="hero-title">
-    <CharacterCanvas />
+    <CharacterCanvas motionEnabled={motionEnabled} />
     <HeroCursor />
     <div className="hero-topline" aria-hidden="true"><span>MOHD SHAHRUKH</span><span>DEVELOPMENT / FILM</span></div>
     <div className="hero-copy">

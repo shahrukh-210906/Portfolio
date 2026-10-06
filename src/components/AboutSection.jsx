@@ -1,85 +1,21 @@
-import { Code, User } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight, Code2, Clapperboard } from "lucide-react";
 
-export const AboutSection = ({ theme }) => {
-  return (
-    <section id="about" className="py-24 px-4 relative">
-      {" "}
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-          About <span className="text-primary"> Me</span>
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold">
-              Passionate Web Developer & Tech enthusiast
-            </h3>
-
-            <p className="text-muted-foreground">
-              With over a year of experience in web development, I specialize
-              in creating responsive, accessible, and performant web
-              applications using modern technologies.
-            </p>
-
-            <p className="text-muted-foreground">
-              I&apos;m passionate about creating elegant solutions to complex
-              problems, and I&apos;m constantly learning new technologies and
-              techniques to stay at the forefront of the ever-evolving web
-              landscape.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center">
-              <a href="#contact" className={cn(
-                "px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
-                theme === 'dark'
-                  ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                  : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
-              )}>
-                {" "}
-                Get In Touch
-              </a>
-
-              <a
-                href={`${import.meta.env.BASE_URL}resume/Resume.pdf`}
-                className="cosmic-button-outline"
-              >
-                Download CV
-              </a>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6">
-            <div className="p-6 rounded-lg bg-card/60 dark:bg-card/20 backdrop-blur-md shadow-sm border border-border/50 dark:border-border/20">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Code className="h-6 w-6 text-primary" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-semibold text-lg"> Web Development</h4>
-                  <p className="text-muted-foreground">
-                    Creating responsive websites and web applications with
-                    modern frameworks.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="p-6 rounded-lg bg-card/60 dark:bg-card/20 backdrop-blur-md shadow-sm border border-border/50 dark:border-border/20">
-              <div className="flex items-start gap-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <User className="h-6 w-6 text-primary" />
-                </div>
-                <div className="text-left">
-                  <h4 className="font-semibold text-lg">Film Maker</h4>
-                  <p className="text-muted-foreground">
-                    Loves capturing stunning visuals and telling stories through film.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+export const AboutSection = () => (
+  <section id="about" className="editorial-section about-section" aria-labelledby="about-title"><span className="section-watermark" aria-hidden="true">STORY</span>
+    <div className="section-shell">
+      <p className="section-kicker"><span>02 /</span> A LITTLE ABOUT ME</p>
+      <div className="about-grid">
+        <div className="about-portrait"><img src={`${import.meta.env.BASE_URL}frames/center.webp`} alt="Stylized portrait of Mohd Shahrukh" loading="lazy" width="1280" height="720" /><span>MOHD SHAHRUKH / DEVELOPER & STORYTELLER</span></div>
+        <div className="about-copy"><h2 id="about-title">A developer’s mind.<br /><em>A storyteller’s eye.</em></h2>
+          <p>I’m Mohd Shahrukh, a web developer and tech enthusiast with a love for filmmaking. I build responsive, accessible web applications and enjoy finding elegant solutions to complex problems.</p>
+          <p>Whether I’m writing code or capturing a frame, I care about the details that make an experience feel right. I’m always exploring new tools and learning better ways to bring ideas to life.</p>
+          <a className="text-link" href={`${import.meta.env.BASE_URL}resume/Resume.pdf`} target="_blank" rel="noopener noreferrer">Read my résumé <ArrowUpRight size={18} aria-hidden="true" /></a>
         </div>
       </div>
-    </section>
-  );
-};
+      <div className="practice-grid">
+        <article><Code2 size={26} aria-hidden="true" /><div><h3>Built for the web.</h3><p>Responsive interfaces and modern applications, with usability and performance in mind.</p></div></article>
+        <article><Clapperboard size={26} aria-hidden="true" /><div><h3>Seen through a lens.</h3><p>Capturing visuals and telling stories through film. A creative perspective that carries into my work.</p></div></article>
+      </div>
+    </div>
+  </section>
+);

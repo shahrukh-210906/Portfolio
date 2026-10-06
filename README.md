@@ -1,6 +1,6 @@
 # Mohd Shahrukh — Portfolio
 
-React 18, Vite, Tailwind CSS. Existing projects, skills, and theme support, with a red editorial hero inspired by the supplied cursor-tracking tutorial.
+React 18, Vite, Tailwind CSS. Existing projects, skills, and theme support, with a red editorial design throughout inspired by the supplied cursor-tracking tutorial.
 
 ## Run
 
@@ -30,3 +30,11 @@ Reproduce the included frames:
 python scripts/prepare_character.py source-assets/character.mp4 --anchors 1.25 2.55 3.55 4.65 5.45 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43 --skip-interval 5.7 6.2
 
 The last timestamp extends past the 10-second duration and wraps to the beginning. The source background is a red gradient; frames preserve it. Mobile uses a bottom fade into the sampled edge color.
+
+## Portfolio design
+
+An editorial design spans the whole site: bright crimson and deep burgundy palettes, serif headings, red accents, and consistent surfaces. Selected work follows the character hero, with a wide featured project and two secondary cards. Live and source links remain visible on touch devices. About combines the supplied character portrait with development and film interests. Skills are organized by category, with accessible keyboard-operated filters and announced results. Contact provides direct links and a labeled email-draft form; the footer and 404 page use the same design system.
+
+The old animated star/day backgrounds and percentage skill meters are no longer rendered. Theme preferences persist, reduced motion is supported, and a skip link leads to selected work. Browser checks cover 320/375-pixel mobile and 1280-pixel desktop layouts, both themes, navigation, skill filters, and required-field validation without sending a message.
+
+Motion includes a scrolling studio ribbon, staggered scroll reveals, rotating stars, icon movement, project-preview rotation, portrait zoom, arrow feedback, and hero text entrance. A persistent Motion toggle pauses decorative motion and character tracking. Reduced-motion settings are respected; looping effects pause offscreen and when the tab is hidden. All content stays readable with motion paused. Decorative lettering is hidden from screen readers.

@@ -1,116 +1,34 @@
-import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight, Github } from "lucide-react";
 
 const projects = [
-  {
-    id: 1,
-    title: "WonderLust",
-    description: "A web platform for listing, discovering, and booking unique travel accommodations.",
-    image: "/projects/project1.png",
-    tags: ["NodeJs", "ExpressJs", "MongoDB"],
-    demoUrl: "https://wonderlust-7m5h.onrender.com/",
-    githubUrl: "https://github.com/shahrukh-210906/WONDERLUST.git",
-  },
-  {
-    id: 2,
-    title: "scortIQ",
-    description:"An AI-powered learning platform for Indian students, offering personalized tutoring for the NCERT curriculum.",
-    image: "/projects/project2.png",
-    tags: ["React", "Tailwind", "Node.js"],
-    demoUrl: "https://scort-iq.vercel.app/",
-    githubUrl: "https://github.com/shahrukh-210906/scortIQ",
-  },
-  {
-    id: 3,
-    title: "RCB Fan Page",
-    description:
-      "A dynamic, animated fan website celebrating the Royal Challengers Bangalore's fictional 2025 IPL championship victory.",
-    image: "/projects/project3.png",
-    tags: ["HTML", "CSS", "JavaScript"],
-    demoUrl: "https://shahrukh-210906.github.io/RCB-FAN-PAGE/",
-    githubUrl: "https://github.com/shahrukh-210906/RCB-FAN-PAGE.git",
-  },
+  { title: "WonderLust", type: "TRAVEL & DISCOVERY", description: "A place to discover your next escape. A web platform for listing, exploring, and booking unique travel accommodations.", image: "project1.png", tags: ["Node.js", "Express", "MongoDB"], demo: "https://wonderlust-7m5h.onrender.com/", source: "https://github.com/shahrukh-210906/WONDERLUST" },
+  { title: "scortIQ", type: "EDUCATION & AI", description: "Personalized tutoring for Indian students, with an AI-powered learning experience built around the NCERT curriculum.", image: "project2.png", tags: ["React", "Tailwind CSS", "Node.js"], demo: "https://scort-iq.vercel.app/", source: "https://github.com/shahrukh-210906/scortIQ" },
+  { title: "RCB Fan Page", type: "SPORT & INTERACTION", description: "An animated fan experience for Royal Challengers Bangalore, bringing team spirit to the web through motion and interaction.", image: "project3.png", tags: ["HTML", "CSS", "JavaScript"], demo: "https://shahrukh-210906.github.io/RCB-FAN-PAGE/", source: "https://github.com/shahrukh-210906/RCB-FAN-PAGE" },
 ];
 
-export const ProjectsSection = ({ theme }) => {
-  return (
-    <section id="projects" className="py-24 px-4 relative">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          {" "}
-          Featured <span className="text-primary"> Projects </span>
-        </h2>
-
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Here are some of my recent projects. Each project was carefully
-          crafted with attention to detail, performance, and user experience.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, key) => (
-            <div
-              key={key}
-              className="group rounded-lg overflow-hidden shadow-sm bg-card/60 dark:bg-card/20 backdrop-blur-md border border-border/50 dark:border-border/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            >
-              <div className="h-48 overflow-hidden relative">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-primary transition-colors"
-                  >
-                    <ExternalLink size={28} />
-                  </a>
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-primary transition-colors"
-                  >
-                    <Github size={28} />
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-6 flex flex-col h-full">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, index) => (
-                    <span key={index} className="px-2 py-1 text-xs font-medium border rounded-full bg-primary/20 text-primary">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <h3 className="text-xl font-semibold mb-2"> {project.title}</h3>
-                <p className="text-muted-foreground text-sm flex-grow">
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <a
-            className={cn(
-              "w-fit flex items-center mx-auto gap-2 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
-              theme === 'dark'
-                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
-            )}
-            target="_blank"
-            href="https://github.com/shahrukh-210906"
-          >
-            Check My Github <ArrowRight size={16} />
-          </a>
-        </div>
+export const ProjectsSection = () => (
+  <section id="projects" className="editorial-section work-section" aria-labelledby="work-title"><span className="section-watermark" aria-hidden="true">WORK</span>
+    <div className="section-shell">
+      <div className="section-heading">
+        <div><p className="section-kicker"><span>01 /</span> SELECTED WORK</p><h2 id="work-title">Ideas, brought<br /><em>to life.</em></h2></div>
+        <p className="section-intro">A selection of websites I’ve built.<br />Different challenges. One focus:<br />thoughtful, useful experiences.</p>
       </div>
-    </section>
-  );
-};
+      <div className="project-grid">
+        {projects.map((project, index) => <article key={project.title} className={`project-card ${index === 0 ? "project-featured" : ""}`}>
+          <div className={`project-preview preview-${index}`}>
+            <div className="preview-browser"><div className="browser-bar" aria-hidden="true"><span /><span /><span /><div>{project.title.toLowerCase().replaceAll(" ", "")}</div></div>
+              <img src={`${import.meta.env.BASE_URL}projects/${project.image}`} alt={`${project.title} website preview`} loading="lazy" width="1280" height="720" />
+            </div>
+            <span className="project-number" aria-hidden="true">0{index + 1}</span>
+          </div>
+          <div className="project-info">
+            <p className="small-label">{project.type}</p><h3>{project.title}</h3><p className="project-description">{project.description}</p>
+            <ul className="tag-list" aria-label={`${project.title} technologies`}>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+            <div className="project-links"><a href={project.demo} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} live site (opens a new tab)`}>View live site <ArrowUpRight size={18} aria-hidden="true" /></a><a href={project.source} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} source on GitHub (opens a new tab)`}><Github size={17} aria-hidden="true" /> Source</a></div>
+          </div>
+        </article>)}
+      </div>
+      <a className="text-link work-more" href="https://github.com/shahrukh-210906" target="_blank" rel="noopener noreferrer">More on GitHub <ArrowUpRight size={18} aria-hidden="true" /></a>
+    </div>
+  </section>
+);

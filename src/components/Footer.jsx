@@ -1,19 +1,3 @@
 import { ArrowUp } from "lucide-react";
 
-export const Footer = () => {
-  return (
-    <footer className="py-12 px-4 bg-card/60 dark:bg-card/20 backdrop-blur-md relative border-t border-border/50 dark:border-border/20 mt-12 pt-8 flex flex-wrap justify-between items-center">
-      {" "}
-      <p className="text-sm text-muted-foreground">
-        {" "}
-        &copy; {new Date().getFullYear()} Mohd Shahrukh. All rights reserved.
-      </p>
-      <a
-        href="#hero" aria-label="Back to top"
-        className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 text-primary transition-colors"
-      >
-        <ArrowUp size={20} />
-      </a>
-    </footer>
-  );
-};
+export const Footer = () => <footer className="site-footer"><div className="section-shell footer-inner"><a className="footer-brand" href="#hero" aria-label="Mohd Shahrukh — home">MS<span>.</span></a><p>© {new Date().getFullYear()} Mohd Shahrukh.<br /><span>Built with curiosity. Made with care.</span></p><a className="footer-top" href="#hero">Back to top <ArrowUp size={18} aria-hidden="true" /></a></div></footer>;

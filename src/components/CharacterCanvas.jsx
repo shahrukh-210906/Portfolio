@@ -8,12 +8,13 @@ const loadImage = (url) => new Promise((resolve, reject) => {
   image.src = url;
 });
 
-export function CharacterCanvas() {
+export function CharacterCanvas({ motionEnabled = true }) {
   const canvasRef = useRef(null);
   const [ready, setReady] = useState(false);
   const [posterReady, setPosterReady] = useState(false);
 
   useEffect(() => {
+    setReady(false);
     const canvas = canvasRef.current;
     const section = canvas.closest("section");
     const context = canvas.getContext("2d", { alpha: false });
@@ -39,9 +40,9 @@ export function CharacterCanvas() {
       const elapsed = lastTime ? Math.min(time - lastTime, 50) : 16.67;
       angle += delta * (1 - Math.pow(0.74, elapsed / 16.67));
       lastTime = time;
-      const index = neutral || motion.matches || !fine.matches ? -1 : Math.round(((angle % TAU + TAU) % TAU) / TAU * frames.length) % frames.length;
+      const index = neutral || !motionEnabled || motion.matches || !fine.matches ? -1 : Math.round(((angle % TAU + TAU) % TAU) / TAU * frames.length) % frames.length;
       if (index !== previous) { draw(index < 0 ? center : frames[index]); previous = index; canvas.dataset.frame = String(index); }
-      if (!neutral && !motion.matches && fine.matches && Math.abs(delta) > 0.001) raf = requestAnimationFrame(tick);
+      if (!neutral && motionEnabled && !motion.matches && fine.matches && Math.abs(delta) > 0.001) raf = requestAnimationFrame(tick);
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(tick); };
     const resize = () => {
@@ -50,10 +51,12 @@ export function CharacterCanvas() {
       width = rect.width; height = rect.height;
       canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Resizing clears canvas pixels even when offscreen; keep a complete still painted.
+      if (center && manifest) draw(previous >= 0 ? frames[previous] : center);
       previous = -2; schedule();
     };
     const move = (event) => {
-      if (!manifest || event.pointerType === "touch" || motion.matches || !fine.matches) return;
+      if (!motionEnabled || !manifest || event.pointerType === "touch" || motion.matches || !fine.matches) return;
       const rect = canvas.getBoundingClientRect();
       const scale = Math.max(rect.width / center.width, rect.height / center.height);
       const dx = event.clientX - rect.left - ((rect.width - center.width * scale) / 2 + center.width * scale * manifest.face[0]);
@@ -92,7 +95,7 @@ export function CharacterCanvas() {
       motion.removeEventListener("change", reset); fine.removeEventListener("change", reset);
       document.removeEventListener("visibilitychange", visibility);
     };
-  }, []);
+  }, [motionEnabled]);
 
   return <>
     <canvas ref={canvasRef} className={`hero-character ${ready ? "is-ready" : ""}`} aria-hidden="true" />

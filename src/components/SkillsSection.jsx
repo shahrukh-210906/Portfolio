@@ -1,125 +1,21 @@
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import { Briefcase, Code, Cpu, Server, Puzzle, GitGraph, AppWindow, CodeXml, Languages, Database, Feather } from "lucide-react";
+import { Code2, Database, GitBranch } from "lucide-react";
 
-const skills = [
-  // Frontend
-  { name: "HTML/CSS", level: 95, category: "frontend", url: "https://developer.mozilla.org/en-US/docs/Web/HTML", icon: <CodeXml /> },
-  { name: "JavaScript", level: 80, category: "frontend", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript", icon: <Languages /> },
-  { name: "React", level: 80, category: "frontend", url: "https://react.dev/", icon: <Cpu /> },
-  { name: "Tailwind CSS", level: 80, category: "frontend", url: "https://tailwindcss.com/", icon: <Puzzle /> },
-  { name: "Bootstrap", level: 85, category: "frontend", url: "https://getbootstrap.com/", icon: <Puzzle /> },
-
-  // Backend
-  { name: "Node.js", level: 70, category: "backend", url: "https://nodejs.org/", icon: <Server /> },
-  { name: "Express", level: 75, category: "backend", url: "https://expressjs.com/", icon: <Server /> },
-  { name: "MongoDB", level: 70, category: "backend", url: "https://www.mongodb.com/", icon: <Database /> },
-  { name: "PostgreSQL", level: 65, category: "backend", url: "https://www.postgresql.org/", icon: <Database /> },
-
-  // Tools
-  { name: "Git/GitHub", level: 90, category: "tools", url: "https://git-scm.com/", icon: <GitGraph /> },
-  { name: "Vercel", level: 70, category: "tools", url: "https://vercel.com/", icon: <AppWindow /> },
-  { name: "Notion", level: 70, category: "tools", url: "https://www.notion.so/", icon: <Feather /> },
-  { name: "VS Code", level: 95, category: "tools", url: "https://code.visualstudio.com/", icon: <Code /> },
+const groups = [
+  { name: "Frontend", icon: Code2, description: "The interface people see and use.", tools: ["HTML / CSS", "JavaScript", "React", "Tailwind CSS", "Bootstrap"] },
+  { name: "Backend", icon: Database, description: "The systems behind the experience.", tools: ["Node.js", "Express", "MongoDB", "PostgreSQL"] },
+  { name: "Tools", icon: GitBranch, description: "The everyday toolkit that makes it happen.", tools: ["Git / GitHub", "Vercel", "Notion", "VS Code"] },
 ];
 
-
-const categories = ["all", "frontend", "backend", "tools"];
-
-// Animation variants for Framer Motion
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const skillVariants = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-    },
-  },
-};
-
-export const SkillsSection = ({ theme }) => {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const filteredSkills = skills.filter(
-    (skill) => activeCategory === "all" || skill.category === activeCategory
-  );
-
-  return (
-    <section id="skills" className="py-24 px-4 relative bg-transparent" ref={ref}>
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
-          My <span className="text-primary"> Skills</span>
-        </h2>
-
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={cn(
-                "px-5 py-2 rounded-full transition-all duration-300 capitalize cursor-pointer",
-                activeCategory === category
-                  ? theme === 'dark'
-                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white"
-                    : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
-                  : "bg-secondary/70 text-foreground hover:bg-secondary"
-              )}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        <motion.div
-          className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-        >
-          {filteredSkills.map((skill) => (
-            <motion.a
-              key={skill.name}
-              href={skill.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-6 rounded-lg bg-card/60 dark:bg-card/20 backdrop-blur-md shadow-sm border border-border/50 dark:border-border/20 text-center block transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-              variants={skillVariants}
-            >
-              <div className="flex justify-center items-center mb-4 text-primary">
-                {skill.icon}
-              </div>
-              <h3 className="font-semibold text-lg group-hover:text-primary mb-2">
-                {skill.name}
-              </h3>
-              <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden">
-                <motion.div
-                  className="bg-primary h-2 rounded-full origin-left"
-                  initial={{ width: "0%" }}
-                  animate={{ width: inView ? `${skill.level}%` : "0%" }}
-                  transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-                />
-              </div>
-            </motion.a>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
+export const SkillsSection = () => {
+  const [filter, setFilter] = useState("All");
+  const shown = groups.filter((group) => filter === "All" || filter === group.name);
+  return <section id="skills" className="editorial-section stack-section" aria-labelledby="skills-title"><span className="section-watermark" aria-hidden="true">BUILD</span><div className="section-shell">
+    <div className="section-heading"><div><p className="section-kicker"><span>03 /</span> THE TOOLKIT</p><h2 id="skills-title">Good ideas.<br /><em>The tools to build them.</em></h2></div><p className="section-intro">From the first interface to the final deployment,<br />these are the technologies I work with.</p></div>
+    <div className="skill-filters" role="group" aria-label="Filter technologies">{["All", ...groups.map((g) => g.name)].map((name) => <button key={name} aria-pressed={filter === name} aria-controls="skill-results" onClick={() => setFilter(name)}>{name}</button>)}</div>
+    <p className="sr-only" role="status">Showing {filter === "All" ? "all 13 technologies" : `${shown[0].tools.length} ${filter.toLowerCase()} technologies`}</p>
+    <div id="skill-results" className={`stack-grid ${filter !== "All" ? "stack-filtered" : ""}`}>
+      {shown.map(({ name, icon: Icon, description, tools }) => <article className="stack-card" key={name}><div className="stack-card-top"><Icon size={25} aria-hidden="true" /><span className="small-label">{tools.length} TOOLS</span></div><h3>{name}</h3><p>{description}</p><ul>{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul></article>)}
+    </div>
+  </div></section>;
 };
