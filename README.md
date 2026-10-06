@@ -52,3 +52,10 @@ Extraction: `python scripts/prepare_character.py ../../outputs/character-enhance
 Nine public projects are curated from the GitHub account: Trip Expense Tracker, LiftEat, WonderLust, BookIt, Twiller, scortIQ, RCB Fan Page, Spotify Clone and Mood Manager. Descriptions and technologies for the six additions were checked against public README files, manifests and source structure. Source-only projects do not receive invented live links. Screenshot previews are removed from the Work markup.
 
 Work has its own reveal observer, independent of the other sections: masked title slides, alternating row entrances, delayed descriptions/tags/actions, rolling link labels, and a hover/focus background sweep. A horizontally scrollable project index links to stable rows. Motion pauses when requested and reduced-motion visitors see content immediately.
+
+### GSAP Work gallery
+Work now uses `gsap`, `ScrollTrigger`, `ScrollToPlugin` and `@gsap/react`. On displays at least 1024px wide and 650px tall, native vertical scroll drives a pinned horizontal project track with a small scrub delay, a project counter, decorative number parallax and staggered detail slides. Project shortcuts and Previous/Next controls map to native scroll positions; Continue to About exits the gallery. Keyboard focus brings an offscreen project into view.
+
+Smaller displays keep the vertical directory with GSAP entrance sequences. `gsap.matchMedia` and `useGSAP` revert tweens and pin spacers on breakpoint, preference and component changes. Pausing returns to the current project in the vertical layout. Reduced-motion mode keeps all project content visible without pinning. No additional smooth-scroll layer is used.
+
+Implementation references: [GSAP ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/) and [GSAP React integration](https://gsap.com/resources/React/).
