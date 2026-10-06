@@ -27,6 +27,6 @@ The glass navigation provides Work, About, and Contact links at all sizes. Résu
 
 Reproduce the included frames:
 
-python scripts/prepare_character.py source-assets/character.mp4 --anchors 1.25 2.55 3.55 4.65 5.75 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43
+python scripts/prepare_character.py source-assets/character.mp4 --anchors 1.25 2.55 3.55 4.65 5.45 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43 --skip-interval 5.7 6.2
 
 The last timestamp extends past the 10-second duration and wraps to the beginning. The source background is a red gradient; frames preserve it. Mobile uses a bottom fade into the sampled edge color.

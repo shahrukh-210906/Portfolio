@@ -21,6 +21,7 @@ parser.add_argument("--center", type=float)
 parser.add_argument("--face", nargs=2, type=float, default=[0.5, 0.4], help="Face center as fractions of source width/height")
 parser.add_argument("--output", type=Path, default=Path("public/frames"))
 parser.add_argument("--max-width", type=int, default=1440)
+parser.add_argument("--skip-interval", nargs=2, type=float, action="append", default=[], help="Exclude blink/unstable time ranges by choosing their nearest endpoint")
 args = parser.parse_args()
 cap = cv2.VideoCapture(str(args.video))
 if not cap.isOpened():
@@ -81,6 +82,9 @@ else:
     for index in range(64):
         segment, step = divmod(index, 8)
         second = args.anchors[segment] + (args.anchors[segment+1]-args.anchors[segment])*step/8
+        for start, end in args.skip_interval:
+            if start < second < end:
+                second = start if second-start <= end-second else end
         name = f"frame-{index:02d}.webp"
         write(name, read_at(second))
         names.append(name)
@@ -89,4 +93,5 @@ else:
     (args.output/"manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     print(f"Prepared 64 directional frames + center in {args.output}; background {background}")
 cap.release()
+
 
