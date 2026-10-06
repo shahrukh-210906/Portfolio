@@ -55,7 +55,7 @@ export const Home = ({ theme, toggleTheme }) => {
   }, []);
   useEffect(() => {
     if (!motionEnabled || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const elements = [...document.querySelectorAll(".section-heading, .section-kicker, .project-card, .about-portrait, .about-copy, .practice-grid article, .stack-card, .contact-copy, .contact-form")];
+    const elements = [...document.querySelectorAll(".section-heading, .section-kicker, .project-card, .about-portrait, .about-copy, .practice-grid article, .stack-card, .contact-copy, .contact-form")].filter((element) => !element.closest(".work-section"));
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
       if (entry.isIntersecting) { entry.target.classList.add("is-revealed"); observer.unobserve(entry.target); }
     }), { threshold: 0.08 });
@@ -74,7 +74,7 @@ export const Home = ({ theme, toggleTheme }) => {
       <main>
         <HeroSection motionEnabled={motionEnabled} />
         <div className="studio-ribbon"><p className="sr-only">Web development, visual stories, and ideas brought to life.</p><div className="ribbon-track" aria-hidden="true">{[0,1,2,3].map((i) => <span key={i}>CREATIVE DEVELOPMENT <b className="ribbon-star" /> VISUAL STORIES <b className="ribbon-star" /> IDEAS INTO EXPERIENCES <b className="ribbon-star" /></span>)}</div></div>
-        <ProjectsSection />
+        <ProjectsSection motionEnabled={motionEnabled} />
         <AboutSection />
         <SkillsSection />
         <ContactSection />

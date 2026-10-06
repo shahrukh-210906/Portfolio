@@ -47,3 +47,8 @@ The supplied 24 FPS source is cleaned in a small empty-background region rather 
 The current hero uses 96 directional WebP poses at 1280×720, sampled from the enhanced timeline, plus the neutral pose. This keeps browser memory below that of preloading 96 full-HD frames. Pointer geometry is cached instead of reading layout on every pointer movement, and frames are decoded before the animation becomes ready. Existing pause, visibility and reduced-motion controls still apply.
 
 Extraction: `python scripts/prepare_character.py ../../outputs/character-enhanced-1080p60.mp4 --anchors 1.25 2.55 3.55 4.65 5.45 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43 --skip-interval 5.7 6.2 --frame-count 96 --max-width 1280`
+
+### Work section
+Nine public projects are curated from the GitHub account: Trip Expense Tracker, LiftEat, WonderLust, BookIt, Twiller, scortIQ, RCB Fan Page, Spotify Clone and Mood Manager. Descriptions and technologies for the six additions were checked against public README files, manifests and source structure. Source-only projects do not receive invented live links. Screenshot previews are removed from the Work markup.
+
+Work has its own reveal observer, independent of the other sections: masked title slides, alternating row entrances, delayed descriptions/tags/actions, rolling link labels, and a hover/focus background sweep. A horizontally scrollable project index links to stable rows. Motion pauses when requested and reduced-motion visitors see content immediately.
