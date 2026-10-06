@@ -5,22 +5,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { useState, useEffect } from "react";
 
 function App() {
-  const [theme, setTheme] = useState('dark'); // Default to dark theme
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    // Set dark as default if nothing is stored
-    const initialTheme = storedTheme || 'dark';
-    setTheme(initialTheme);
-  }, []);
-
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem("theme") === "dark" ? "dark" : "light"; }
+    catch { return "light"; }
+  });
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    localStorage.setItem('theme', theme);
+    try { localStorage.setItem('theme', theme); } catch { /* Theme still works if storage is unavailable. */ }
   }, [theme]);
 
   const toggleTheme = () => {

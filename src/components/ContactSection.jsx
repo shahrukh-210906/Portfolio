@@ -1,182 +1,30 @@
-import {
-  Instagram,
-  Linkedin,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight, Github, Instagram, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
 
-export const ContactSection = ({ theme }) => {
+export const ContactSection = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. I'll get back to you soon.",
-      });
-      setIsSubmitting(false);
-    }, 1500);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const subject = encodeURIComponent(`Portfolio enquiry from ${data.get("name")}`);
+    const body = encodeURIComponent(`${data.get("message")}\n\nFrom: ${data.get("name")}\nEmail: ${data.get("email")}`);
+    window.location.href = `mailto:buddy2196@hotmail.com?subject=${subject}&body=${body}`;
+    toast({ title: "Continue in your email app", description: "Review and send the draft. If your email app did not open, use the email link." });
   };
-  return (
-    <section id="contact" className="py-24 px-4 relative bg-transparent">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          Get In <span className="text-primary"> Touch</span>
-        </h2>
-
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Have a project in mind or want to collaborate? Feel free to reach out.
-          I'm always open to discussing new opportunities.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <h3 className="text-2xl font-semibold mb-6">
-              {" "}
-              Contact Information
-            </h3>
-
-            <div className="space-y-6 justify-center">
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Mail className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium text-start"> Email</h4>
-                  <a
-                    href="mailto:hello@gmail.com"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    buddy2196@hotmail.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Phone className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium text-start"> Phone</h4>
-                  <a
-                    href="tel:+11234567890"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    +91 9548254478
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <MapPin className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium text-start"> Location</h4>
-                  <a className="text-muted-foreground hover:text-primary transition-colors">
-                    Woxsen University, Hyderabad
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-8">
-              <h4 className="font-medium mb-4"> Connect With Me</h4>
-              <div className="flex space-x-4 justify-center">
-                <a href="www.linkedin.com/in/mohd-shahrukh-913b2b36b" target="_blank">
-                  <Linkedin />
-                </a>
-                <a href="https://www.instagram.com/shahrukh_210906" target="_blank">
-                  <Instagram/>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="p-8 rounded-lg shadow-sm bg-card/60 dark:bg-card/20 backdrop-blur-md border border-border/50 dark:border-border/20"
-          >
-            <h3 className="text-2xl font-semibold mb-6"> Send a Message</h3>
-
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium mb-2"
-                >
-                  {" "}
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
-                  placeholder="Mohd Shahrukh..."
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium mb-2"
-                >
-                  {" "}
-                  Your Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary"
-                  placeholder="buddy2196@hotmail.com"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium mb-2"
-                >
-                  {" "}
-                  Your Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden foucs:ring-2 focus:ring-primary resize-none"
-                  placeholder="Hello, I'd like to talk about..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={cn(
-                  "w-full flex items-center justify-center gap-2 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
-                  theme === 'dark'
-                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                    : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
-                )}
-              >
-                {isSubmitting ? "Sending..." : "Send Message"}
-                <Send size={16} />
-              </button>
-            </form>
-          </div>
-        </div>
+  return <section id="contact" className="editorial-section contact-section" aria-labelledby="contact-title"><span className="section-watermark" aria-hidden="true">HELLO</span><div className="section-shell">
+    <p className="section-kicker"><span>04 /</span> LET’S MAKE SOMETHING</p>
+    <div className="contact-grid">
+      <div className="contact-copy"><h2 id="contact-title">Have an idea?<br /><em>Let’s talk.</em></h2><p>A website, a collaboration, or just a conversation.<br />I’d love to hear what you have in mind.</p>
+        <a className="contact-email" href="mailto:buddy2196@hotmail.com">buddy2196@hotmail.com <ArrowUpRight size={24} aria-hidden="true" /></a>
+        <ul className="contact-details"><li><Phone size={16} aria-hidden="true" /><a href="tel:+919548254478">+91 9548254478</a></li><li><MapPin size={16} aria-hidden="true" /><span>Woxsen University, Hyderabad</span></li></ul>
+        <div className="social-links"><a href="https://github.com/shahrukh-210906" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens a new tab)"><Github size={19} /></a><a href="https://www.linkedin.com/in/mohd-shahrukh-913b2b36b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens a new tab)"><Linkedin size={19} /></a><a href="https://www.instagram.com/shahrukh_210906" target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens a new tab)"><Instagram size={19} /></a></div>
       </div>
-    </section>
-  );
+      <form className="contact-form" onSubmit={handleSubmit} aria-label="Prepare an email enquiry"><h3>Start a conversation.</h3><p id="form-help">Write a little about your idea. This opens an email draft for you to review and send.</p>
+        <label htmlFor="name">Your name<input id="name" name="name" required autoComplete="name" placeholder="How should I call you?" maxLength={100} /></label>
+        <label htmlFor="email">Email address<input id="email" name="email" type="email" required autoComplete="email" placeholder="you@example.com" maxLength={254} /></label>
+        <label htmlFor="message">What do you have in mind?<textarea id="message" name="message" required rows={4} placeholder="Tell me a little about your project…" maxLength={2000} /></label>
+        <button className="design-button" type="submit" aria-describedby="form-help"><Mail size={18} aria-hidden="true" /> Open email draft <ArrowUpRight size={18} aria-hidden="true" /></button>
+      </form>
+    </div>
+  </div></section>;
 };

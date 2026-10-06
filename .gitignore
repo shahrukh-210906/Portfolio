@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Offline character preparation scratch files
+__pycache__/
+public/character.mp4
+public/character-contact-sheet.jpg
+public/character-neutral.jpg
+
+source-assets/

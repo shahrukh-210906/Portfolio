@@ -1,116 +1,135 @@
-import { ArrowRight, ExternalLink, Github } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowUpRight, ArrowLeft, ArrowRight, Github, Route, Dumbbell, Compass, CalendarDays, MessagesSquare, GraduationCap, Trophy, Music2, Heart } from "lucide-react";
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
 const projects = [
-  {
-    id: 1,
-    title: "WonderLust",
-    description: "A web platform for listing, discovering, and booking unique travel accommodations.",
-    image: "/projects/project1.png",
-    tags: ["NodeJs", "ExpressJs", "MongoDB"],
-    demoUrl: "https://wonderlust-7m5h.onrender.com/",
-    githubUrl: "https://github.com/shahrukh-210906/WONDERLUST.git",
-  },
-  {
-    id: 2,
-    title: "scortIQ",
-    description:"An AI-powered learning platform for Indian students, offering personalized tutoring for the NCERT curriculum.",
-    image: "/projects/project2.png",
-    tags: ["React", "Tailwind", "Node.js"],
-    demoUrl: "https://scort-iq.vercel.app/",
-    githubUrl: "https://github.com/shahrukh-210906/scortIQ",
-  },
-  {
-    id: 3,
-    title: "RCB Fan Page",
-    description:
-      "A dynamic, animated fan website celebrating the Royal Challengers Bangalore's fictional 2025 IPL championship victory.",
-    image: "/projects/project3.png",
-    tags: ["HTML", "CSS", "JavaScript"],
-    demoUrl: "https://shahrukh-210906.github.io/RCB-FAN-PAGE/",
-    githubUrl: "https://github.com/shahrukh-210906/RCB-FAN-PAGE.git",
-  },
+  { title: "Trip Expense Tracker", type: "TRAVEL / FULL STACK", icon: Route, description: "Shared trips, expenses, and a group kitty in one place. Tracks who paid, splits costs, and calculates settlement, with offline saving and live updates.", tags: ["React", "Express", "MongoDB", "Socket.IO"], source: "https://github.com/shahrukh-210906/trip-expense-tracker", detail: "Shared expenses. Clear settlements." },
+  { title: "LiftEat", type: "FITNESS / FULL STACK", icon: Dumbbell, description: "A fitness companion for workout and food logs, lifting progress, and AI coaching informed by the account’s own activity.", tags: ["React", "TypeScript", "Express", "MongoDB"], source: "https://github.com/shahrukh-210906/LiftEat", detail: "Train. Log. Understand your progress." },
+  { title: "WonderLust", type: "TRAVEL / FULL STACK", icon: Compass, description: "A place to discover your next escape. A web platform for listing, exploring, and booking unique travel accommodations.", tags: ["Node.js", "Express", "MongoDB"], demo: "https://wonderlust-7m5h.onrender.com/", source: "https://github.com/shahrukh-210906/WONDERLUST", detail: "Discover your next escape." },
+  { title: "BookIt", type: "SCHEDULING / FULL STACK", icon: CalendarDays, description: "Faculty and student dashboards for managing availability and booking appointments, with separate sign-in experiences and appointment updates.", tags: ["React", "Vite", "QR scanning"], source: "https://github.com/shahrukh-210906/BOOKIT", detail: "Less back-and-forth. More time to meet." },
+  { title: "Twiller", type: "SOCIAL / FULL STACK", icon: MessagesSquare, description: "A social feed project with post composition, profile editing, and authentication, built with a Next.js interface and an Express backend.", tags: ["Next.js", "TypeScript", "Firebase", "Express"], source: "https://github.com/shahrukh-210906/twiller", detail: "A space for posts and conversations." },
+  { title: "scortIQ", type: "EDUCATION / AI", icon: GraduationCap, description: "Personalized tutoring for Indian students, with an AI-powered learning experience built around the NCERT curriculum.", tags: ["React", "Tailwind CSS", "Node.js"], demo: "https://scort-iq.vercel.app/", source: "https://github.com/shahrukh-210906/scortIQ", detail: "Learning, with a little more guidance." },
+  { title: "RCB Fan Page", type: "SPORT / INTERACTION", icon: Trophy, description: "An animated fan experience for Royal Challengers Bangalore, bringing team spirit to the web through motion and interaction.", tags: ["HTML", "CSS", "JavaScript"], demo: "https://shahrukh-210906.github.io/RCB-FAN-PAGE/", source: "https://github.com/shahrukh-210906/RCB-FAN-PAGE", detail: "Built around the energy of the game." },
+  { title: "Spotify Clone", type: "MUSIC / INTERFACE STUDY", icon: Music2, description: "A Spotify-inspired interface study with a library sidebar, playlist cards, and music-player layout, built in HTML and CSS.", tags: ["HTML", "CSS", "Layout design"], source: "https://github.com/shahrukh-210906/SPOTIFY-CLONE", detail: "An exploration of a familiar listening UI." },
+  { title: "Mood Manager", type: "WELLBEING / WEB EXPERIENCE", icon: Heart, description: "A mood-based web experience with separate happy, sad, and angry pages, offering reflections and interactive reminders.", tags: ["HTML", "CSS", "JavaScript"], source: "https://github.com/shahrukh-210906/Mood-Manager", detail: "A small moment to pause and reflect." },
 ];
 
-export const ProjectsSection = ({ theme }) => {
+export const ProjectsSection = ({ motionEnabled = true }) => {
+  const sectionRef = useRef(null);
+  const progressRef = useRef(null);
+  const stageRef = useRef(null);
+  const trackRef = useRef(null);
+  const scrollApiRef = useRef(null);
+  const [activeProject, setActiveProject] = useState(0);
+  const { contextSafe } = useGSAP((context, safe) => {
+    const section = sectionRef.current;
+    const progressBar = progressRef.current;
+    if (!motionEnabled) return;
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      const heading = gsap.timeline({ scrollTrigger: { trigger: section.querySelector(".section-heading"), start: "top 85%", once: true } });
+      heading.from(".work-title-mask > *", { yPercent: 115, duration: .9, stagger: .13, ease: "power4.out" })
+        .from(".section-intro", { x: 35, opacity: 0, duration: .7, ease: "power3.out" }, .2)
+        .from(".work-index a", { y: 16, opacity: 0, duration: .45, stagger: .04 }, .35);
+    });
+    media.add("(min-width: 1024px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)", () => {
+      const stage = stageRef.current, track = trackRef.current;
+      const cards = [...track.querySelectorAll("article")];
+      const previouslyVisible = cards.findIndex((card) => {
+        const rect = card.getBoundingClientRect();
+        return rect.top < window.innerHeight * .5 && rect.bottom > 110;
+      });
+      let currentIndex = 0, galleryActive = false;
+      section.classList.add("work-is-horizontal");
+      const distance = () => Math.max(0, track.scrollWidth - stage.clientWidth);
+      const updateCounter = (progress) => {
+        const index = Math.min(cards.length - 1, Math.round(progress * (cards.length - 1)));
+        currentIndex = index;
+        setActiveProject((current) => current === index ? current : index);
+        stage.dataset.project = String(index + 1);
+      };
+      const travel = gsap.to(track, { x: () => -distance(), ease: "none", scrollTrigger: {
+        trigger: stage, start: "top 96px", end: () => `+=${Math.max(1200, distance() * .6)}`,
+        pin: true, scrub: .55, anticipatePin: 1, invalidateOnRefresh: true,
+        onUpdate: (self) => { galleryActive = self.scroll() >= self.start - 2 && self.scroll() <= self.end + 2; updateCounter(self.progress); progressBar.style.transform = `scaleX(${self.progress})`; },
+        onRefresh: (self) => { galleryActive = self.scroll() >= self.start - 2 && self.scroll() <= self.end + 2; updateCounter(self.progress); },
+      } });
+      scrollApiRef.current = (index) => {
+        const trigger = travel.scrollTrigger;
+        const progress = Math.min(1, cards[index].offsetLeft / distance());
+        return trigger.start + progress * (trigger.end - trigger.start);
+      };
+      cards.forEach((card) => {
+        gsap.fromTo(card.querySelector(".work-row-number"), { y: 25 }, { y: -25, ease: "none", scrollTrigger: { trigger: card, containerAnimation: travel, start: "left right", end: "right left", scrub: true } });
+        gsap.from(card.querySelectorAll(".small-label, .project-info h3, .project-description, .tag-list, .work-row-actions"), { x: 35, stagger: .035, duration: .55, ease: "power3.out", scrollTrigger: { trigger: card, containerAnimation: travel, start: "left 95%", toggleActions: "play none none reverse" } });
+      });
+      const initialIndex = /^#work-project-(\d+)$/.exec(window.location.hash);
+      const frame = requestAnimationFrame(safe(() => {
+        ScrollTrigger.refresh();
+        if (initialIndex && Number(initialIndex[1]) <= cards.length) gsap.set(window, { scrollTo: scrollApiRef.current(Number(initialIndex[1]) - 1) });
+        else if (previouslyVisible > 0) gsap.set(window, { scrollTo: scrollApiRef.current(previouslyVisible) });
+      }));
+      return () => {
+        const wasPinned = galleryActive;
+        cancelAnimationFrame(frame); scrollApiRef.current = null; section.classList.remove("work-is-horizontal");
+        if (wasPinned) requestAnimationFrame(() => {
+          if (section.isConnected && !section.classList.contains("work-is-horizontal")) cards[currentIndex].scrollIntoView({ behavior: "instant", block: "start" });
+        });
+      };
+    });
+    media.add({ narrow: "(max-width: 1023px)", short: "(max-height: 649px)", motion: "(prefers-reduced-motion: no-preference)" }, ({ conditions }) => {
+      if ((!conditions.narrow && !conditions.short) || !conditions.motion) return;
+      section.querySelectorAll(".work-project-row").forEach((card, index) => {
+        const reveal = gsap.timeline({ scrollTrigger: { trigger: card, start: "top 88%", once: true } });
+        reveal.from(card.querySelector(".work-project-identity"), { y: 25, opacity: 0, duration: .7, ease: "power3.out" })
+          .from(card.querySelectorAll(".small-label, .project-info h3, .project-description"), { x: index % 2 ? 28 : -28, opacity: 0, stagger: .08, duration: .65, ease: "power3.out" }, .08)
+          .from(card.querySelectorAll(".tag-list li, .work-row-actions"), { y: 15, opacity: 0, duration: .5, stagger: .045 }, .3);
+      });
+      gsap.fromTo(progressBar, { scaleX: 0 }, { scaleX: 1, ease: "none", scrollTrigger: { trigger: section, start: "top bottom", end: "bottom bottom", scrub: true } });
+    });
+    return () => { media.revert(); progressBar.style.transform = "scaleX(1)"; };
+  }, { scope: sectionRef, dependencies: [motionEnabled], revertOnUpdate: true });
+  const goToProject = contextSafe((index, event) => {
+    if (!scrollApiRef.current) return;
+    event?.preventDefault();
+    // Jump to the native scroll position; the scrubbed gallery supplies the easing.
+    gsap.set(window, { scrollTo: { y: scrollApiRef.current(index), autoKill: false } });
+  });
+  const revealFocusedProject = (index, event) => {
+    if (!scrollApiRef.current || event.currentTarget.contains(event.relatedTarget)) return;
+    const card = event.currentTarget.getBoundingClientRect(), stage = stageRef.current.getBoundingClientRect();
+    if (card.left < stage.left - 2 || card.right > stage.right + 2) requestAnimationFrame(() => goToProject(index));
+  };
   return (
-    <section id="projects" className="py-24 px-4 relative">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          {" "}
-          Featured <span className="text-primary"> Projects </span>
-        </h2>
-
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          Here are some of my recent projects. Each project was carefully
-          crafted with attention to detail, performance, and user experience.
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, key) => (
-            <div
-              key={key}
-              className="group rounded-lg overflow-hidden shadow-sm bg-card/60 dark:bg-card/20 backdrop-blur-md border border-border/50 dark:border-border/20 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
-            >
-              <div className="h-48 overflow-hidden relative">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-primary transition-colors"
-                  >
-                    <ExternalLink size={28} />
-                  </a>
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-white hover:text-primary transition-colors"
-                  >
-                    <Github size={28} />
-                  </a>
-                </div>
-              </div>
-
-              <div className="p-6 flex flex-col h-full">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, index) => (
-                    <span key={index} className="px-2 py-1 text-xs font-medium border rounded-full bg-primary/20 text-primary">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <h3 className="text-xl font-semibold mb-2"> {project.title}</h3>
-                <p className="text-muted-foreground text-sm flex-grow">
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <a
-            className={cn(
-              "w-fit flex items-center mx-auto gap-2 px-6 py-2 rounded-full font-medium transition-all duration-300 hover:scale-105 active:scale-95",
-              theme === 'dark'
-                ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:shadow-[0_0_10px_rgba(139,92,246,0.5)]"
-                : "bg-gradient-to-r from-sky-500 to-cyan-500 text-white shadow-lg shadow-cyan-500/40"
-            )}
-            target="_blank"
-            href="https://github.com/shahrukh-210906"
-          >
-            Check My Github <ArrowRight size={16} />
-          </a>
-        </div>
+  <section ref={sectionRef} id="projects" className="editorial-section work-section" aria-labelledby="work-title"><span className="section-watermark" aria-hidden="true">WORK</span>
+    <div className="section-shell">
+      <div className="work-ledger work-choreography"><span>SELECTED PROJECTS</span><span>01 — {String(projects.length).padStart(2, "0")}</span><div className="work-progress" aria-hidden="true"><span ref={progressRef} /></div></div>
+      <div className="section-heading work-choreography">
+        <div><p className="section-kicker"><span>01 /</span> SELECTED WORK</p><h2 id="work-title"><span className="work-title-mask"><span>Ideas, brought</span></span><span className="work-title-mask"><em>to life.</em></span></h2></div>
+        <p className="section-intro">A selection of websites I’ve built.<br />Different challenges. One focus:<br />thoughtful, useful experiences.</p>
       </div>
-    </section>
+      <nav className="work-index work-choreography" aria-label="Jump to a project">{projects.map((project, index) => <a key={project.title} href={`#work-project-${index + 1}`} onClick={(event) => goToProject(index, event)}><span>0{index + 1}</span>{project.title}<ArrowUpRight size={15} aria-hidden="true" /></a>)}</nav>
+      <div className="work-scroll-stage" ref={stageRef}>
+      <div className="work-stage-bar"><span>SCROLL TO EXPLORE <ArrowRight size={15} aria-hidden="true" /></span><span className="work-stage-count">{String(activeProject + 1).padStart(2,"0")} <span>/ 09</span></span><div className="work-stage-controls"><button aria-label="Previous project" disabled={activeProject === 0} onClick={() => goToProject(activeProject - 1)}><ArrowLeft size={18} aria-hidden="true" /></button><button aria-label="Next project" disabled={activeProject === projects.length - 1} onClick={() => goToProject(activeProject + 1)}><ArrowRight size={18} aria-hidden="true" /></button><a href="#about">Continue to About <ArrowUpRight size={15} aria-hidden="true" /></a></div></div>
+      <div className="project-grid work-project-list" ref={trackRef}>
+        {projects.map((project, index) => <article id={`work-project-${index + 1}`} key={project.title} onFocusCapture={(event) => revealFocusedProject(index, event)} style={{ "--work-direction": index % 2 === 0 ? "1" : "-1" }} className="project-card work-choreography work-project-row">
+          <div className="work-project-identity" aria-hidden="true"><span className="work-row-number">{String(index + 1).padStart(2, "0")}</span><project.icon size={28} strokeWidth={1.2} /><span className="work-row-rule" /></div>
+          <div className="project-info">
+            <p className="small-label">{project.type}</p><h3><span>{project.title}</span></h3><p className="project-description">{project.description}</p>
+            <ul className="tag-list" aria-label={`${project.title} technologies`}>{project.tags.map((tag) => <li key={tag}>{tag}</li>)}</ul>
+          </div>
+          <div className="work-row-actions"><p>{project.detail}</p><div className="project-links">{project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} live site (opens a new tab)`}><span className="work-link-window"><span>View live site</span><span aria-hidden="true">Explore project</span></span><ArrowUpRight size={18} aria-hidden="true" /></a>}<a href={project.source} target="_blank" rel="noopener noreferrer" aria-label={`View ${project.title} source on GitHub (opens a new tab)`}><Github size={17} aria-hidden="true" /><span className="work-link-window"><span>View source</span><span aria-hidden="true">Open GitHub</span></span><ArrowUpRight size={16} aria-hidden="true" /></a></div></div>
+          <span className="work-row-sweep" aria-hidden="true" />
+        </article>)}
+      </div>
+      </div>
+      <a className="text-link work-more work-choreography" href="https://github.com/shahrukh-210906" target="_blank" rel="noopener noreferrer">More on GitHub <ArrowUpRight size={18} aria-hidden="true" /></a>
+    </div>
+  </section>
   );
 };
