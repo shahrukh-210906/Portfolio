@@ -22,6 +22,7 @@ parser.add_argument("--face", nargs=2, type=float, default=[0.5, 0.4], help="Fac
 parser.add_argument("--output", type=Path, default=Path("public/frames"))
 parser.add_argument("--max-width", type=int, default=1440)
 parser.add_argument("--crop-right", type=int, help="Keep source pixels left of this x coordinate")
+parser.add_argument("--frame-count", type=int, default=64, help="Directional poses, divisible by eight")
 parser.add_argument("--skip-interval", nargs=2, type=float, action="append", default=[], help="Exclude blink/unstable time ranges by choosing their nearest endpoint")
 args = parser.parse_args()
 cap = cv2.VideoCapture(str(args.video))
@@ -83,10 +84,13 @@ else:
         if not cv2.imwrite(str(args.output/name), frame, [cv2.IMWRITE_WEBP_QUALITY, 92]):
             raise RuntimeError(f"Cannot write {name}")
     write("center.webp", center)
+    if args.frame_count < 16 or args.frame_count > 128 or args.frame_count % 8:
+        parser.error("Frame count must be 16..128 and divisible by eight")
     names = []
-    for index in range(64):
-        segment, step = divmod(index, 8)
-        second = args.anchors[segment] + (args.anchors[segment+1]-args.anchors[segment])*step/8
+    steps = args.frame_count // 8
+    for index in range(args.frame_count):
+        segment, step = divmod(index, steps)
+        second = args.anchors[segment] + (args.anchors[segment+1]-args.anchors[segment])*step/steps
         for start, end in args.skip_interval:
             if start < second < end:
                 second = start if second-start <= end-second else end
@@ -96,7 +100,7 @@ else:
     # Publish the manifest only after every frame was successfully written.
     manifest = {"enabled": True, "background": background, "face": args.face, "center": "center.webp", "frames": names}
     (args.output/"manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-    print(f"Prepared 64 directional frames + center in {args.output}; background {background}")
+    print(f"Prepared {args.frame_count} directional frames + center in {args.output}; background {background}")
 cap.release()
 
 

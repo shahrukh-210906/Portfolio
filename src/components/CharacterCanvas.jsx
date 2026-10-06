@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 const TAU = Math.PI * 2;
 const loadImage = (url) => new Promise((resolve, reject) => {
   const image = new Image();
-  image.onload = () => resolve(image);
+  image.onload = async () => {
+    try { await image.decode(); resolve(image); } catch (error) { reject(error); }
+  };
   image.onerror = reject;
   image.src = url;
 });
@@ -26,8 +28,11 @@ export function CharacterCanvas({ motionEnabled = true }) {
     let frames, center, manifest, raf = 0, angle = 0, target = 0;
     let neutral = true, visible = true, previous = -2, lastTime = 0;
     let width = 0, height = 0;
+    let pointerRect, faceX = 0, faceY = 0;
 
     const draw = (image) => {
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
       const scale = Math.max(width / image.width, height / image.height);
       context.fillStyle = manifest.background;
       context.fillRect(0, 0, width, height);
@@ -43,12 +48,19 @@ export function CharacterCanvas({ motionEnabled = true }) {
       const index = neutral || !motionEnabled || motion.matches || !fine.matches ? -1 : Math.round(((angle % TAU + TAU) % TAU) / TAU * frames.length) % frames.length;
       if (index !== previous) { draw(index < 0 ? center : frames[index]); previous = index; canvas.dataset.frame = String(index); }
       if (!neutral && motionEnabled && !motion.matches && fine.matches && Math.abs(delta) > 0.001) raf = requestAnimationFrame(tick);
+      else lastTime = 0;
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(tick); };
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = rect.width; height = rect.height;
+      pointerRect = rect;
+      if (center && manifest) {
+        const scale = Math.max(width / center.width, height / center.height);
+        faceX = (width - center.width * scale) / 2 + center.width * scale * manifest.face[0];
+        faceY = center.height * scale * manifest.face[1];
+      }
       canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Resizing clears canvas pixels even when offscreen; keep a complete still painted.
@@ -57,10 +69,9 @@ export function CharacterCanvas({ motionEnabled = true }) {
     };
     const move = (event) => {
       if (!motionEnabled || !manifest || event.pointerType === "touch" || motion.matches || !fine.matches) return;
-      const rect = canvas.getBoundingClientRect();
-      const scale = Math.max(rect.width / center.width, rect.height / center.height);
-      const dx = event.clientX - rect.left - ((rect.width - center.width * scale) / 2 + center.width * scale * manifest.face[0]);
-      const dy = event.clientY - rect.top - (center.height * scale * manifest.face[1]);
+      const rect = pointerRect;
+      const dx = event.clientX - rect.left - faceX;
+      const dy = event.clientY - rect.top - faceY;
       neutral = Math.hypot(dx, dy) < Math.min(rect.width, rect.height) * 0.12;
       // Frame zero is UP; positive angles move clockwise through the compass.
       target = Math.atan2(dy, dx) + Math.PI / 2;
@@ -68,6 +79,7 @@ export function CharacterCanvas({ motionEnabled = true }) {
     };
     const reset = () => { neutral = true; previous = -2; schedule(); };
     const visibility = () => { lastTime = 0; schedule(); };
+    const refreshPointerRect = () => { pointerRect = canvas.getBoundingClientRect(); };
     const resizeObserver = new ResizeObserver(resize);
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; lastTime = 0; schedule(); });
     resizeObserver.observe(canvas); observer.observe(section);
@@ -75,11 +87,12 @@ export function CharacterCanvas({ motionEnabled = true }) {
     section.addEventListener("pointerleave", reset);
     motion.addEventListener("change", reset); fine.addEventListener("change", reset);
     document.addEventListener("visibilitychange", visibility);
+    window.addEventListener("scroll", refreshPointerRect, { passive: true });
     fetch(`${import.meta.env.BASE_URL}frames/manifest.json`, { signal: controller.signal })
       .then((response) => { if (!response.ok) throw new Error("No character frames"); return response.json(); })
       .then(async (data) => {
         if (data.enabled === false) return;
-        if (data.frames?.length !== 64 || !/^#[0-9a-f]{6}$/i.test(data.background) || !Array.isArray(data.face) || data.face.length !== 2 || !data.face.every((n) => Number.isFinite(n) && n >= 0 && n <= 1)) throw new Error("Invalid character manifest");
+        if (!Array.isArray(data.frames) || data.frames.length < 16 || data.frames.length > 128 || !/^#[0-9a-f]{6}$/i.test(data.background) || !Array.isArray(data.face) || data.face.length !== 2 || !data.face.every((n) => Number.isFinite(n) && n >= 0 && n <= 1)) throw new Error("Invalid character manifest");
         const base = `${import.meta.env.BASE_URL}frames/`;
         const images = await Promise.all([loadImage(base + data.center), ...data.frames.map((name) => loadImage(base + name))]);
         if (disposed) return;
@@ -94,6 +107,7 @@ export function CharacterCanvas({ motionEnabled = true }) {
       section.removeEventListener("pointermove", move); section.removeEventListener("pointerleave", reset);
       motion.removeEventListener("change", reset); fine.removeEventListener("change", reset);
       document.removeEventListener("visibilitychange", visibility);
+      window.removeEventListener("scroll", refreshPointerRect);
     };
   }, [motionEnabled]);
 

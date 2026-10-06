@@ -39,4 +39,11 @@ The old animated star/day backgrounds and percentage skill meters are no longer 
 
 Motion includes a scrolling studio ribbon, staggered scroll reveals, rotating stars, icon movement, project-preview rotation, portrait zoom, arrow feedback, and hero text entrance. A persistent Motion toggle pauses decorative motion and character tracking. Reduced-motion settings are respected; looping effects pause offscreen and when the tab is hidden. All content stays readable with motion paused. Decorative lettering is hidden from screen readers.
 
-The current assets crop the original video's right edge at x=1120 to exclude the Gemini mark from all 65 poses. The face position becomes 0.56, 0.43. Use --crop-right 1120 during extraction. Section backgrounds reuse mirrored clean background pixels from the original footage, preserving its warm red palette.
+The earlier assets cropped the original video's right edge at x=1120 to exclude the Gemini mark from all 65 poses. The face position becomes 0.56, 0.43. Use --crop-right 1120 during extraction. Section backgrounds reuse mirrored clean background pixels from the original footage, preserving its warm red palette.
+
+### Enhanced character media
+The supplied 24 FPS source is cleaned in a small empty-background region rather than cropped, preserving its full 1280×720 framing. `scripts/enhance_character.py` uses lossless intermediate frames, motion-compensated interpolation to 60 FPS, Lanczos upscaling to 1920×1080, and H.264 encoding. This is an enhanced source, not newly generated native 1080p detail.
+
+The current hero uses 96 directional WebP poses at 1280×720, sampled from the enhanced timeline, plus the neutral pose. This keeps browser memory below that of preloading 96 full-HD frames. Pointer geometry is cached instead of reading layout on every pointer movement, and frames are decoded before the animation becomes ready. Existing pause, visibility and reduced-motion controls still apply.
+
+Extraction: `python scripts/prepare_character.py ../../outputs/character-enhanced-1080p60.mp4 --anchors 1.25 2.55 3.55 4.65 5.45 6.95 8.05 8.95 11.25 --center 0 --face 0.49 0.43 --skip-interval 5.7 6.2 --frame-count 96 --max-width 1280`
